@@ -23,6 +23,7 @@ library
   ghc-options:         -Wall
   exposed-modules:     Inputs  
                      , Day1.Solution
+                     , Day2.Solution
   build-depends:       base >= 4.7 && <5
                      , random
                      , containers
