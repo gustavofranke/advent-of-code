@@ -1,12 +1,9 @@
 module Day1.Solution where
 
-import Inputs
-
-input :: [Integer]
-input = Inputs.day1
+import Inputs ( day1 )
 
 -- |
--- >>> day1a
+-- >>> day1a Inputs.day1
 -- [(1547,473)]
 -- 
 -- >>> 1547 + 473
@@ -14,8 +11,8 @@ input = Inputs.day1
 -- 
 -- >>> 1547 * 473
 -- 731731
-day1a :: [(Integer, Integer)]
-day1a =
+day1a :: [Integer] -> [(Integer, Integer)]
+day1a input =
   [ (x, y) | x <- input -- x * y
            , y <- input
            , x > y
@@ -23,7 +20,7 @@ day1a =
   ]
 
 -- |
--- >>> day1b
+-- >>> day1b Inputs.day1
 -- [(1433,365,222)]
 -- 
 -- >>> 1433 + 365 + 222
@@ -31,8 +28,8 @@ day1a =
 -- 
 -- >>> 1433 * 365 * 222
 -- 116115990
-day1b :: [(Integer, Integer, Integer)]
-day1b =
+day1b :: [Integer] -> [(Integer, Integer, Integer)]
+day1b input =
   [ (x, y, z) | x <- input -- x * y * z
               , y <- input
               , x > y
