@@ -35,26 +35,9 @@ day5bAnswer :: [Integer] -> Maybe Integer
 day5bAnswer (x : y : zs) = let z = x + 1 in if z == y then day5bAnswer (y : zs) else Just z
 day5bAnswer _ = Nothing
 
--- Just 532
-
 --------------------------------------------------------------------------
 seatId :: Num a => (a, a) -> a
 seatId (r, c) = (r * 8) + c
-
--- For example, consider just the first seven characters of FBFBBFF RLR:
--- 
--- Start by considering the whole range, rows 0 through 127.
--- F means to take the lower half, keeping rows 0 through 63.
--- B means to take the upper half, keeping rows 32 through 63.
--- F means to take the lower half, keeping rows 32 through 47.
--- B means to take the upper half, keeping rows 40 through 47.
--- B keeps rows 44 through 47.
--- F keeps rows 44 through 45.
--- The final F keeps the lower of the two, row 44.
-
---   F   B     FBBFFRLR
---  128
---  2^7
 
 -- |
 -- >>> decode "FBFBBFFRLR"
@@ -83,28 +66,6 @@ decodeColsWithHalves (mini, maxi) r
       | r == 'L' = (mini, (mini + maxi) `div` 2)
       | r == 'R' = ((mini + maxi) `div` 2 + 1, maxi)
       | otherwise = error "the impossible happened"
-
--- first 7 characters specify exactly one of the 128 rows on the plane (numbered 0 through 127).
--- decodeRows rs = foldr (decodeRowsWithHalves) (0 :: Integer, 127 :: Integer) rs
-
--- decodeRowsWithHalves :: Char -> (Integer, Integer) -> (Integer, Integer)
--- decodeRowsWithHalves r (mini, maxi)
---       | r == 'F' = (mini, (mini + maxi) `div` 2)
---       | r == 'B' = ((mini + maxi) `div` 2 + 1, maxi)
---       | otherwise = error "the impossible happened"
-
--- "F `decodeRowsWithHalves` (0 :: Integer, 127 :: Integer) BFBBFF"
--- decodeRowsWithHalves :: Char -> (Integer, Integer) -> (Integer, Integer)
--- decodeRowsWithHalves r (mini, maxi)
---       | r == 'F' = if mini < (maxi `div` 2 - 1) then (mini ,maxi `div` 2 - 1) else (mini, mini + (maxi `div` 2 - 1) `div` 2)
---       | r == 'B' = (maxi `div` 2 + 1, maxi)
---       | otherwise = error "the impossible happened"
-
--- decodeRowsWithHalves :: (Char, Integer) -> (Char, Integer, Integer)
--- decodeRowsWithHalves (r, n)
---       | r == 'F' = (r, 0, n `div` 2 - 1)
---       | r == 'B' = (r, n `div` 2, n - 1)
-
 
 -- decodeRows "FBFBBFF"
 -- (44,44)
