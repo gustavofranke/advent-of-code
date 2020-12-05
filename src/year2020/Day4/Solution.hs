@@ -86,7 +86,6 @@ exampleBatchFile =
 -- [[("ecl","gry"),("pid","860033327"),("eyr","2020"),("hcl","#fffffd"),("byr","1937"),("iyr","2017"),("cid","147"),("hgt","183cm")],[("iyr","2013"),("ecl","amb"),("cid","350"),("eyr","2023"),("pid","028048884"),("hcl","#cfa07d"),("byr","1929")],[("hcl","#ae17e1"),("iyr","2013"),("eyr","2024"),("ecl","brn"),("pid","760753108"),("byr","1931"),("hgt","179cm")],[("hcl","#cfa07d"),("eyr","2025"),("pid","166559648"),("iyr","2011"),("ecl","brn"),("hgt","59in")]]
 mkKeyValue :: [Char] -> [[([Char], [Char])]]
 mkKeyValue input = fmap passpByKV separatePassp
--- mkKeyValue input =   separatePassp >>= passpByKV
     where
         separatePassp = lines input
         fielsPerPassp = words
@@ -168,6 +167,17 @@ isValidEyr eyr1 = if (length eyr1 == 4) && (number >= 2020) && (number <= 2030) 
 -- hgt (Height) - a number followed by either cm or in:
 --   If cm, the number must be at least 150 and at most 193.
 --   If in, the number must be at least 59 and at most 76.
+-- >>> isValidHgt "60in"
+-- Just "60in"
+-- 
+-- >>> isValidHgt "190cm"
+-- Just "190cm"
+-- 
+-- >>> isValidHgt "190in"
+-- Nothing
+-- 
+-- >>> isValidHgt "190"
+-- Nothing
 isValidHgt :: [Char] -> Maybe [Char]
 isValidHgt hgt1 = case uom of
     "cm" -> if number >= 150 && number <= 193 then Just hgt1 else Nothing
@@ -177,12 +187,28 @@ isValidHgt hgt1 = case uom of
     number = read (take (length hgt1 - 2) hgt1) :: Int
     uom    = drop (length hgt1 - 2) hgt1
 
-
--- hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f.
+-- |
+-- hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f. 
+--  
+-- >>> isValidHcl "#123abc"
+-- Just "#123abc"
+-- >>> isValidHcl "#123abz"
+-- Nothing
+-- >>> isValidHcl "123abc"
+-- Nothing
 isValidHcl :: [Char] -> Maybe [Char]
-isValidHcl hcl1 =  stripPrefix "#" hcl1 >>= (\s -> if length s == 6 then Just hcl1 else Nothing)
+isValidHcl hcl1 = stripPrefix "#" hcl1 >>= (\s -> if length s == 6 && isAtoF s then Just hcl1 else Nothing)
+  where
+    isAtoF s = and $ fmap (\c -> c `elem` ['a' .. 'f'] || c `elem` ['0' .. '9']) s
 
+-- |
 -- ecl (Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
+-- 
+-- >>> isValidEcl "brn"
+-- Just "brn"
+-- 
+-- >>> isValidEcl "wat"
+-- Nothing
 isValidEcl :: [Char] -> Maybe [Char]
 isValidEcl ecl1
     | ecl1 == "amb" = Just ecl1
@@ -193,6 +219,12 @@ isValidEcl ecl1
     | ecl1 == "hzl" = Just ecl1
     | ecl1 == "oth" = Just ecl1
     | otherwise = Nothing
-    
+
+-- |   
+-- >>> isValidPid "000000001"
+-- Just "000000001"
+-- 
+-- >>> isValidPid "0123456789"
+-- Nothing
 isValidPid :: [Char] -> Maybe [Char]
 isValidPid pid1 =  if length pid1 == 9 then Just pid1 else Nothing
