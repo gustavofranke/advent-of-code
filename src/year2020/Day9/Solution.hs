@@ -20,6 +20,9 @@ isValid pre r = r `elem` sums
   where
     sums = [x + y | x <- pre, y <- pre]
 
+-- |
+-- >>> head $ day9a 5 [35,20,15,25,47,40,62,55,65,95,102,117,150,182,127,219,299,277,309,576]
+-- (127,False)
 day9a :: (Eq a, Num a) => Int -> [a] -> [(a, Bool)]
 day9a _ [] = []
 day9a preLenght ls@(_ : xs) = filter (not . snd) $ (r, isValid pre r) : day9a preLenght xs
@@ -46,6 +49,10 @@ part1Answer = do
   return $ head $ day9a 25 (fmap (\x -> read x :: Int) inp)
 
 ----------------------------------------------
+
+-- |
+-- >>> contiguous 127 [] [35,20,15,25,47,40,62,55,65,95,102,117,150,182,127,219,299,277,309,576]
+-- [15,25,47,40]
 contiguous :: Int -> [Int] -> [Int] -> [Int]
 contiguous _ sequen [] = sequen
 contiguous number sequen (l : ls) = findSeq number sequen (l : ls)
@@ -65,11 +72,14 @@ part2Answer :: IO Int
 part2Answer = do
   inp <- lines <$> readFile "src/year2020/Day9/input.txt"
   let numbers = fmap (\x -> read x :: Int) inp
-  return $ day9b numbers
+  return $ day9b 104054607 numbers
 
-day9b :: [Int] -> Int
-day9b ls = mini + maxi
+-- |
+-- >>> day9b 127 [35,20,15,25,47,40,62,55,65,95,102,117,150,182,127,219,299,277,309,576]
+-- 62
+day9b :: Int -> [Int] -> Int
+day9b part1 ls = mini + maxi
   where
-    contiguousSet = sort $ contiguous 104054607 [] ls
+    contiguousSet = sort $ contiguous part1 [] ls
     mini = minimum contiguousSet
     maxi = maximum contiguousSet
