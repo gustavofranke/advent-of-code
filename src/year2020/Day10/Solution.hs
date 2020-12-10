@@ -1,7 +1,7 @@
 module Day10.Solution where
 
-import Data.List
-import Control.Arrow
+import Data.List ( partition, sort )
+
 
 --                 when using every adapter, there are  7 differences of 1 jolt and  5 differences of 3 jolts
 -- in a chain that uses all of the adapters, there are 22 differences of 1 jolt and 10 differences of 3 jolts
@@ -94,3 +94,29 @@ input = do
   inp <- lines <$> readFile "src/year2020/Day10/input.txt"
   return $ answerTuple $ fmap (\x -> read x :: Int) inp
 
+------------------------------------
+-- What is the total number of distinct ways you can arrange the adapters to connect the charging outlet to your device?
+
+-- |
+-- >>> answerPart2 ex1
+-- 8
+-- >>> answerPart2 ex2
+-- 19208
+answerPart2 :: [Int] -> Int
+answerPart2 xs = go (1 : repeat 0) (sort xs) 0
+  where
+    go []      []  _ = 0
+    go (y : _) []  _ = y
+    go bs (curr : cs) prev = go list cs curr
+      where
+        cost = curr - prev -1
+        accu = sum $ take (3 - cost) bs
+        list = (accu : replicate cost 0) ++ bs
+
+-- |
+-- >>> input2
+-- 1727094849536
+input2 :: IO Int
+input2 = do
+  inp <- lines <$> readFile "src/year2020/Day10/input.txt"
+  return $ answerPart2 $ fmap (\x -> read x :: Int) inp
