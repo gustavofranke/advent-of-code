@@ -1,5 +1,5 @@
 module Day12.Solution where
--- import Debug.Trace
+
 ex :: [[Char]]
 ex = ["F10", "N3", "F7", "R90", "F11"]
 
@@ -73,29 +73,6 @@ parsed =       -- (0, 0)  E
 answer :: Foldable t => t (Action, Integer) -> ((Integer, Integer), Action)
 answer = foldl process ((0,0), E)
 
-----
-    -- (F, E) -> ((x + i, y)          , dest) -- action F when heading E
-    -- (F, S) -> ((x    , abs (y - i)), dest)
-    -- (N, E) -> ((x    , y + i)      , dest) -- action N when heading E
-    -- (R, E) -> ((x    , y)          , rotate (orig, i) E)
-----
-    -- (N, E) -> ((x          , y + i), dest)
-    -- (N, W) -> ((abs (x - i), y)    , dest)
-    -- (N, S) -> ((x    , y + i)      , dest)
-    -- (N, N) -> ((x    , y + i)      , dest)
-        -- (S, E) -> ((x    , y + i)      , dest) 
-    -- (S, W) -> ((x    , y + i)      , dest)
-    -- (S, S) -> ((x    , y + i)      , dest)
-    -- (S, N) -> ((x    , y + i)      , dest)
-        -- (E, E) -> ((x    , y + i)      , dest)
-    -- (E, W) -> ((x    , y + i)      , dest)
-    -- (E, S) -> ((x    , y + i)      , dest)
-    -- (E, N) -> ((x    , y + i)      , dest)
-        -- (W, E) -> ((x    , y + i)      , dest)
-    -- (W, W) -> ((x    , y + i)      , dest)
-    -- (W, S) -> ((x    , y + i)      , dest)
-    -- (W, N) -> ((x    , y + i)      , dest)
----
 -- !!!!!!!!!!! ((1,-363),S) = 364 is the answer
 -- ((465,91),S) 465 + 91 = 556 your answer is too high
 process :: ((Integer, Integer), Action) -> (Action, Integer) -> ((Integer, Integer), Action)
@@ -120,6 +97,7 @@ rotate :: (Action, Integer) -> Action -> Action
 rotate (a, 90) a1 = rotate90 (a, 90) a1
 rotate (a, 180) a1 = (rotate90 (a, 90) . rotate90 (a, 90)) a1
 rotate (a, 270) a1 = (rotate90 (a, 90) . rotate90 (a, 90) . rotate90 (a, 90)) a1
+rotate (a, _) b = error $ "wanted to rotate" ++ show a ++ " to " ++ show b
 
 rotate90 :: (Action, Integer) -> Action -> Action --90,180,270 => 90*1, 90*2 , 90*3
 rotate90 (R, 90) E = S
@@ -130,7 +108,7 @@ rotate90 (R, 90) W = N
 rotate90 (L, 90) W = S
 rotate90 (R, 90) S = W
 rotate90 (L, 90) S = E
-rotate90 (a, _) b = error $ "wanted to rotate" ++ show a ++ " to " ++ show b
+rotate90 (a, _) b = error $ "wanted to rotate90" ++ show a ++ " to " ++ show b
 
 parser :: Functor f => f [Char] -> f (Action, Integer)
 parser = fmap (\str -> (mkAction $ head str, read (tail str) :: Integer))
@@ -150,41 +128,3 @@ answerInput :: IO ((Integer, Integer), Action)
 answerInput = do
   inp <- lines <$> readFile "src/year2020/Day12/input.txt"
   return $ answer $ parser inp
--- process (N, i) ((x, y), dest) = undefined
--- process (S, i) ((x, y), dest) = undefined
--- process (E, i) ((x, y), dest) = undefined
--- process (W, i) ((x, y), dest) = undefined
--- process (F, i) ((x, y), dest) = ((x + i, y), dest)
--- process (L, i) ((x, y), dest) = undefined
--- process (R, i) ((x, y), dest) = undefined
-
--- process (orig, i) ((x, y), dest) = undefined
-
--- trace ("*** " ++ show (F, E) ++ " => " ++ show ((x + i, y)          , dest))               
--- trace ("*** " ++ show (F, S) ++ " => " ++ show ((x    , abs (y - i)), dest))               
--- trace ("*** " ++ show (N, E) ++ " => " ++ show ((x    , y + i)      , dest))               
--- trace ("*** " ++ show (R, E) ++ " => " ++ show ((x    , y)          , rotate (orig, i) E)) 
--- trace ("*** " ++ show (N,S)  ++ " => " ++ show ((x, y), dest))                             
-    ---
-    -- (L, E) -> ((x    , y)          , rotate (orig, i) E)
-    -- (E, N)  -> ((x + i, y), dest)
-    -- (S, N)  -> ((x, abs (y - i)), dest)
-    -- (R, N)  -> ((x    , y)          , rotate (orig, i) N)
-    -- (S, S)  -> ((x, abs (y - i)), dest)
-    -- (L, S)  -> ((x    , y)          , rotate (orig, i) S)
-    -- (W, N)  -> ((abs (x - i), y), dest)
-    -- (N, N)  -> ((x + i, y), dest)
-    -- (F, N)  -> ((x + i, y), dest)
-    -- (L, N)  -> ((x    , y)          , rotate (orig, i) N)
-    -- (S, W)  -> ((x, abs (y - i)), dest)
-    -- (E, W)  -> ((x, y + i), dest)
-    -- (L, W) -> ((x    , y)          , rotate (orig, i) W)
-    -- (S, E)  -> ((x, abs (y - i)), dest)
-    -- (N, S) -> ((x + i, y), dest)
-    -- (E, S) -> ((x + i, y), dest)
-    -- (W, S) -> ((x, abs (y - i)), dest)
-    -- (W, W) -> ((x, abs (y - i)), dest)
-    -- (N, W) -> ((x + i, y), dest)
-    -- (R, S) -> ((x    , y)          , rotate (orig, i) S)
-    -- (F, W) -> ((x, abs (y - i)), dest)
-    -- (N,S) -> ((x, y), dest)
