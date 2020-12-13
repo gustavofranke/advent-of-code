@@ -1,13 +1,7 @@
 module Day13.Solution where
 
-import Data.List
-import Data.Ord
-
--- example :: [[Char]]
--- example = [
---   "939", -- the earliest timestamp you could depart
---   "7,13,x,x,59,x,31,19" -- the bus IDs in service
---    ]
+import Data.List ( minimumBy )
+import Data.Ord ( comparing )
 
 sanitisedExample :: [[Int]]
 sanitisedExample = [
@@ -25,13 +19,11 @@ departures :: Int -> [Int]
 departures busId = iterate (+ busId) 0
 
 answer :: [[Int]] -> Int
-answer notes = ((snd mini) - earlierDepartureTime) * (fst mini)-- minutes before it departs
+answer notes = ((snd mini) - earlierDepartureTime) * (fst mini) -- minutes before it departs
   where
     earlierDepartureTime = head $ head notes
     busServices = notes !! 1
-    -- inServiceDepartures = concatMap (take 1 . dropWhile (< earlierDepartureTime) . departures) busServices
     inServiceDepartures = fmap (\busId -> let depart = take 1 $ dropWhile (< earlierDepartureTime) $ departures busId in (busId, head depart) ) busServices
-    -- mini = minimum $ fmap snd inServiceDepartures
     mini = minimumBy (comparing snd) inServiceDepartures
 
 
