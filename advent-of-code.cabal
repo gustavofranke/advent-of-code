@@ -37,6 +37,7 @@ library
                      , Day13.Solution
                      , Day14.Solution
                      , Day15.Solution
+                     , Day16.Solution
   build-depends:       base >= 4.7 && <5
                      , containers
                      , parsec
