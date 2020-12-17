@@ -19,3 +19,5 @@ cabal.sandbox.config
 *.iml
 .idea/
 *.lock
+
+input.txt
