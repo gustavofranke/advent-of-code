@@ -1,7 +1,7 @@
-module Day6.Solution where
+module Year2020.Day6.Solution where
 
 import Data.List ( intersect, nub )
-import Inputs ( day6 )
+import Year2020.Inputs ( day6 )
 
 day6Example :: [Char]
 day6Example =
@@ -38,7 +38,7 @@ day6aAnswer = do
 -- >>> day6aAnswer2
 -- 6878
 day6aAnswer2 :: Int
-day6aAnswer2 = day6a Inputs.day6
+day6aAnswer2 = day6a Year2020.Inputs.day6
 -------------------------------------------------------------
 -- exa <- readFile "src/year2020/Day6/example.txt"
 -- lines exa

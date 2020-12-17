@@ -1,4 +1,4 @@
-module Day13.Solution where
+module Year2020.Day13.Solution where
 
 import Data.List ( minimumBy )
 import Data.Ord ( comparing )

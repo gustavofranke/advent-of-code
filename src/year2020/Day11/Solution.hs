@@ -1,4 +1,4 @@
-module Day11.Solution where
+module Year2020.Day11.Solution where
 
 --    Representation of coordinates of a cell within a grid.
 

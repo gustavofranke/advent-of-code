@@ -1,4 +1,4 @@
-module Day12.Solution where
+module Year2020.Day12.Solution where
 
 ex :: [[Char]]
 ex = ["F10", "N3", "F7", "R90", "F11"]

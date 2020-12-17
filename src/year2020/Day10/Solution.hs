@@ -1,4 +1,4 @@
-module Day10.Solution where
+module Year2020.Day10.Solution where
 
 import Data.List ( partition, sort )
 

@@ -1,4 +1,4 @@
-module Inputs where
+module Year2020.Inputs where
 
 -- https://adventofcode.com/2020/day/1/input
 

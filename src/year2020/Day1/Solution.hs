@@ -1,4 +1,4 @@
-module Day1.Solution where
+module Year2020.Day1.Solution where
 
 -- >>> day1aAnswer
 -- [(1547,473)]

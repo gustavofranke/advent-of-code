@@ -1,9 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Day4.Solution where
+module Year2020.Day4.Solution where
 
 import Data.List ( stripPrefix )
 import Data.Maybe ( catMaybes )
-import Inputs ( day4 )
+import Year2020.Inputs ( day4 )
 
 -- |
 -- The expected fields are as follows:
@@ -110,7 +110,7 @@ day4aExample = length $ catMaybes $ readAllPassp exampleBatchFile
 -- >>> day4aAnswer
 -- 206
 day4aAnswer :: Int
-day4aAnswer = length $ catMaybes $ readAllPassp Inputs.day4
+day4aAnswer = length $ catMaybes $ readAllPassp Year2020.Inputs.day4
 
 ------------------------------------------------
 readAllPasspP2 :: [Char] -> [Maybe Passport]
@@ -120,7 +120,7 @@ readAllPasspP2 str= map mkPassportP2 (mkKeyValue str)
 -- >>> day4bAnswer
 -- 123
 day4bAnswer :: Int
-day4bAnswer = length $ catMaybes $ readAllPasspP2 Inputs.day4
+day4bAnswer = length $ catMaybes $ readAllPasspP2 Year2020.Inputs.day4
 
 mkPassportP2 :: [(String, String)] -> Maybe Passport
 mkPassportP2 m = do

@@ -1,4 +1,4 @@
-module Day15.Solution where
+module Year2020.Day15.Solution where
 
 import qualified Data.Map.Strict as Map
 

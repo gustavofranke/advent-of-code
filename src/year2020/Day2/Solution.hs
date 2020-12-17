@@ -1,4 +1,4 @@
-module Day2.Solution where
+module Year2020.Day2.Solution where
 
 import Text.Parsec
     ( anyChar, char, digit, letter, space, many1, parse )

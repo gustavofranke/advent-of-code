@@ -1,4 +1,4 @@
-module Day16.Solution where
+module Year2020.Day16.Solution where
 
 -- class: 1-3 or 5-7
 -- row: 6-11 or 33-44

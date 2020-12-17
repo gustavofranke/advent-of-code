@@ -1,4 +1,4 @@
-module Day14.Solution where
+module Year2020.Day14.Solution where
 
 import Text.Parsec
 import Text.Parsec.String

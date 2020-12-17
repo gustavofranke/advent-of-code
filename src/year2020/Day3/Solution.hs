@@ -1,6 +1,6 @@
-module Day3.Solution where
+module Year2020.Day3.Solution where
 
-import Inputs ( day3 )
+import Year2020.Inputs ( day3 )
 
 --    Representation of coordinates of a cell within a grid.
   
@@ -67,7 +67,7 @@ route grid (Pos a b) = (grid !! (a - 1)) !! (b - 1)
 -- >>> day3a day3Example
 -- 7
 -- 
--- >>> day3a Inputs.day3
+-- >>> day3a Year2020.Inputs.day3
 -- 189
 day3a :: [[Char]] -> Int
 day3a grid = length trees
@@ -120,7 +120,7 @@ day3bSolutionExample = day3bSolution day3Example
 -- >>> day3bSolutionAnswer
 -- 1718180100
 day3bSolutionAnswer :: Int
-day3bSolutionAnswer = day3bSolution Inputs.day3
+day3bSolutionAnswer = day3bSolution Year2020.Inputs.day3
 
 ------------------------
 -- |

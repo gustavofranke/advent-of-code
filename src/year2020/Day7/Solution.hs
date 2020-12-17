@@ -1,4 +1,4 @@
-module Day7.Solution where
+module Year2020.Day7.Solution where
 
 import qualified Data.Map.Strict as M
 import Text.Parsec
