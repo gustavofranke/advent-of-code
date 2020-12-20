@@ -2,9 +2,9 @@
 
 module Year2015.Day2.Solution where
 
+import Data.List (sort)
 import qualified Data.Text as T
 import qualified Data.Text.IO as DTIO
-import Data.List ( sort )
 
 -- |
 -- >>> area 2 3 4
@@ -16,7 +16,6 @@ area l w h = surface + smallest
   where
     surface = 2 * l * w + 2 * w * h + 2 * h * l
     smallest = product (take 2 $ sort [l, w, h])
-
 
 parse :: T.Text -> [Int]
 parse ls = (\str -> (read (T.unpack str) :: Int)) <$> T.splitOn "x" ls
@@ -47,7 +46,7 @@ answerInput = do
 ribbon :: Int -> Int -> Int -> Int
 ribbon l w h = shortest + bow
   where
-    shortest = sum ((take 2 $ sort [l, w, h]) ++ (take 2 $ sort [l, w, h]))
+    shortest = sum (take 2 (sort [l, w, h]) ++ take 2 (sort [l, w, h]))
     bow = l * w * h
 
 -- |
