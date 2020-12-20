@@ -58,7 +58,7 @@ face S (R, n) (x, y) = (W, (x - n, y)) --
 face S (L, n) (x, y) = (E, (x + n, y)) --
 face E (R, n) (x, y) = (S, (x, y - n))
 face E (L, n) (x, y) = (N, (x, y + n))
-face W (R, n) (x, y) = (N, (x + n, y))
+face W (R, n) (x, y) = (N, (x, y + n))
 face W (L, n) (x, y) = (S, (x, y - n))
 
 answer1 :: Foldable t => t (Turn, Int) -> (Dire, (Int, Int))
@@ -83,11 +83,11 @@ manhattan :: Num a => (a, a) -> (a, a) -> a
 manhattan (x1, y1) (x2, y2) = abs (x1 - x2) + abs (y1 - y2)
 
 -- |
--- >>> parse "R2, L3"
+-- >>> parse (T.pack "R2, L3")
 -- [(R,2),(L,3)]
--- >>> parse "R2, R2, R2"
+-- >>> parse (T.pack "R2, R2, R2")
 -- [(R,2),(R,2),(R,2)]
--- >>> parse "R5, L5, R5, R3"
+-- >>> parse (T.pack "R5, L5, R5, R3")
 -- [(R,5),(L,5),(R,5),(R,3)]
 parse :: T.Text -> [(Turn, Int)]
 parse ls =
@@ -101,7 +101,7 @@ parse ls =
 
 -- | 508 is too high
 -- >>> answerInput
--- 508
+-- 234
 answerInput :: IO Int
 answerInput = do
   inp <- T.lines <$> DTIO.readFile "src/year2016/Day1/input.txt"
