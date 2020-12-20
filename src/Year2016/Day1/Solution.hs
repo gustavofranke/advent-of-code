@@ -5,19 +5,7 @@ module Year2016.Day1.Solution where
 import qualified Data.Text as T
 import qualified Data.Text.IO as DTIO
 
--- start at the given coordinates (where you just landed) and face North.
--- Then, follow the provided sequence: either turn left (L) or right (R) 90 degrees,
--- then walk forward the given number of blocks, ending at a new intersection.
-
--- There's no time to follow such ridiculous instructions on foot, though,
--- so you take a moment and work out the destination.
--- Given that you can only walk on the street grid of the city,
--- how far is the shortest path to the destination?
-
--- For example:
--- Following R2, L3 leaves you 2 blocks East and 3 blocks North, or 5 blocks away.
--- R2, R2, R2 leaves you 2 blocks due South of your starting position, which is 2 blocks away.
--- R5, L5, R5, R3 leaves you 12 blocks away.
+-- For example, if your instructions are R8, R4, R4, R8, the first location you visit twice is 4 blocks away, due East.
 
 {-
                   ^ y (N)
@@ -32,15 +20,7 @@ import qualified Data.Text.IO as DTIO
 -}
 
 -- R2, L3 => 2 blocks East and 3 blocks North => (2x, 3y) => (abs 2-0, abs 3-0) = 2+3 = 5 => 5
--- ex1 :: [(Turn, Int)]
--- ex1 = [(R, 2), (L, 3)]
-
 -- R2, R2, R2 => 2 blocks due South => (0, -2 ) => 0+2=2, which is 2 blocks away
--- ex2 :: [(Turn, Int)]
--- ex2 = [(R, 2), (R, 2), (R, 2)]
-
--- ex3 :: [(Turn, Int)]
--- ex3 = [(R, 5), (L, 5), (R, 5), (R, 3)]
 
 data Turn = R | L deriving (Show)
 
@@ -106,3 +86,45 @@ answerInput :: IO Int
 answerInput = do
   inp <- T.lines <$> DTIO.readFile "src/year2016/Day1/input.txt"
   return $ ans $ parse (head inp)
+
+-- *Year2016.Day1.Solution Data.Text> face N (R, 8) (0,0)
+-- (E,(8,0))
+-- *Year2016.Day1.Solution Data.Text> face E (R, 4) (8,0)
+-- (S,(8,-4))
+-- *Year2016.Day1.Solution Data.Text> face S (R, 4) (8,-4)
+-- (W,(4,-4))
+-- *Year2016.Day1.Solution Data.Text> face W (R, 8) (4,-4)
+-- (N,(12,-4))
+
+-- *Year2016.Day1.Solution Data.Text> manhattan (8,0) (0,0)
+
+-- <interactive>:44:1: warning: [-Wtype-defaults]
+--     • Defaulting the following constraints to type ‘Integer’
+--         (Show a0) arising from a use of ‘print’ at <interactive>:44:1-21
+--         (Num a0) arising from a use of ‘it’ at <interactive>:44:1-21
+--     • In a stmt of an interactive GHCi command: print it
+-- 8
+-- *Year2016.Day1.Solution Data.Text> manhattan (8,-4) (0,0)
+
+-- <interactive>:45:1: warning: [-Wtype-defaults]
+--     • Defaulting the following constraints to type ‘Integer’
+--         (Show a0) arising from a use of ‘print’ at <interactive>:45:1-22
+--         (Num a0) arising from a use of ‘it’ at <interactive>:45:1-22
+--     • In a stmt of an interactive GHCi command: print it
+-- 12
+-- *Year2016.Day1.Solution Data.Text> manhattan (4,-4) (0,0)
+
+-- <interactive>:46:1: warning: [-Wtype-defaults]
+--     • Defaulting the following constraints to type ‘Integer’
+--         (Show a0) arising from a use of ‘print’ at <interactive>:46:1-22
+--         (Num a0) arising from a use of ‘it’ at <interactive>:46:1-22
+--     • In a stmt of an interactive GHCi command: print it
+-- 8
+-- *Year2016.Day1.Solution Data.Text> manhattan (12,-4) (0,0)
+
+-- <interactive>:47:1: warning: [-Wtype-defaults]
+--     • Defaulting the following constraints to type ‘Integer’
+--         (Show a0) arising from a use of ‘print’ at <interactive>:47:1-23
+--         (Num a0) arising from a use of ‘it’ at <interactive>:47:1-23
+--     • In a stmt of an interactive GHCi command: print it
+-- 16

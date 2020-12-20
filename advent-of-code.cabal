@@ -22,6 +22,7 @@ executable advent-of-code
 library
   ghc-options:         -Wall
   exposed-modules:     Year2015.Day1.Solution
+                     , Year2015.Day2.Solution
                      , Year2016.Day1.Solution
                      , Year2017.Day1.Solution
                      , Year2018.Day1.Solution
