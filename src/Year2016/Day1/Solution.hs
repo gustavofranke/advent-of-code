@@ -32,25 +32,24 @@ import qualified Data.Text.IO as DTIO
 -}
 
 -- R2, L3 => 2 blocks East and 3 blocks North => (2x, 3y) => (abs 2-0, abs 3-0) = 2+3 = 5 => 5
-ex1 :: [(Turn, Int)]
-ex1 = [(R, 2), (L, 3)]
+-- ex1 :: [(Turn, Int)]
+-- ex1 = [(R, 2), (L, 3)]
 
 -- R2, R2, R2 => 2 blocks due South => (0, -2 ) => 0+2=2, which is 2 blocks away
-ex2 :: [(Turn, Int)]
-ex2 = [(R, 2), (R, 2), (R, 2)]
+-- ex2 :: [(Turn, Int)]
+-- ex2 = [(R, 2), (R, 2), (R, 2)]
 
-ex3 :: [(Turn, Int)]
-ex3 = [(R,5), (L,5), (R,5), (R,3)]
--- start at (0,0) N
+-- ex3 :: [(Turn, Int)]
+-- ex3 = [(R, 5), (L, 5), (R, 5), (R, 3)]
 
-data Turn = R | L deriving Show
+data Turn = R | L deriving (Show)
 
 mkTurn :: Char -> Turn
 mkTurn 'R' = R
 mkTurn 'L' = L
 mkTurn x = error $ "OH NO invalid " ++ show x
 
-data Dire = N | S | W | E deriving Show
+data Dire = N | S | W | E deriving (Show)
 
 face :: Dire -> (Turn, Int) -> (Int, Int) -> (Dire, (Int, Int))
 face N (R, n) (x, y) = (E, (x + n, y))
@@ -66,14 +65,14 @@ answer1 :: Foldable t => t (Turn, Int) -> (Dire, (Int, Int))
 answer1 = foldl (\(d, (x, y)) (t, i) -> face d (t, i) (x, y)) (N, (0, 0))
 
 -- |
--- >>> ans ex1
+-- >>> ans [(R, 2), (L, 3)]
 -- 5
--- >>> ans ex2
+-- >>> ans [(R, 2), (R, 2), (R, 2)]
 -- 2
--- >>> ans ex3
+-- >>> ans [(R, 5), (L, 5), (R, 5), (R, 3)]
 -- 12
 ans :: [(Turn, Int)] -> Int
-ans ls = manhattan (0,0) $ snd $ answer1 ls
+ans ls = manhattan (0, 0) $ snd $ answer1 ls
 
 -- |
 -- >>> manhattan (2, 3) (0,0)
@@ -83,14 +82,21 @@ ans ls = manhattan (0,0) $ snd $ answer1 ls
 manhattan :: Num a => (a, a) -> (a, a) -> a
 manhattan (x1, y1) (x2, y2) = abs (x1 - x2) + abs (y1 - y2)
 
+-- |
+-- >>> parse "R2, L3"
+-- [(R,2),(L,3)]
+-- >>> parse "R2, R2, R2"
+-- [(R,2),(R,2),(R,2)]
+-- >>> parse "R5, L5, R5, R3"
+-- [(R,5),(L,5),(R,5),(R,3)]
 parse :: T.Text -> [(Turn, Int)]
 parse ls =
-    ( \str ->
-        let s = T.strip str
-            turn = mkTurn $ T.head s
-            numb = (read (T.unpack (T.tail s)):: Int)
-         in (turn, numb)
-    )
+  ( \str ->
+      let s = T.strip str
+          turn = mkTurn $ T.head s
+          numb = (read (T.unpack (T.tail s)) :: Int)
+       in (turn, numb)
+  )
     <$> T.splitOn "," ls
 
 -- | 508 is too high
