@@ -1,9 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Year2017.Day2.Solution where
+
 import qualified Data.Text as T
 import qualified Data.Text.IO as DTIO
-import Data.List
 
 ex :: [[Int]]
 ex =
@@ -21,7 +21,7 @@ ex =
 -- >>> part1 ex
 -- 18
 part1 :: [[Int]] -> Int
-part1 ls = sum $ fmap (\ints -> maximum ints - minimum ints ) ls
+part1 ls = sum $ fmap (\ints -> maximum ints - minimum ints) ls
 
 str1 :: T.Text
 str1 = "1364 461 1438 1456 818 999 105 1065 314 99 1353 148 837 590 404 123"
@@ -39,19 +39,6 @@ answerInput1 = do
   return $ part1 $ fmap parse inp
 
 ---------------
--- For example, given the following spreadsheet:
-
--- 5 9 2 8
--- 9 4 7 3
--- 3 8 6 5
--- In the first row, the only two numbers that evenly divide are 8 and 2; the result of this division is 4.
--- In the second row, the two numbers are 9 and 3; the result is 3.
--- In the third row, the result is 2.
--- In this example, the sum of the results would be 4 + 3 + 2 = 9.
-
--- *Year2017.Day2.Solution Data.List> b
--- [(5,9),(2,8),(9,5),(2,9),(5,8),(9,2),(2,5),(9,8),(5,2),(8,2),(8,5),(8,9)]
--- *Year2017.Day2.Solution Data.List> filter (\(a,b)->a`mod`b==0)b
 
 -- |
 -- >>> processLine [5, 9, 2, 8]
@@ -61,25 +48,19 @@ answerInput1 = do
 -- >>> processLine [3, 8, 6, 5]
 -- [(6,3)]
 processLine :: Integral a => [a] -> [(a, a)]
-processLine ls =
-  filter (\(a, b) -> a > b && a `mod` b == 0) $
-  filter (\(a,b)-> a > b) $
-    nub $
-      concatMap
-        ( \l ->
-            let tuple = splitAt (length l `div` 2) l
-                first = fst tuple
-                secon = snd tuple
-             in [(first !! 0, first !! 1), (secon !! 0, secon !! 1)]
-        )
-        (permutations ls)
+processLine ls = fmap (\(l, d) -> (l, head d)) $filter (\(_, d) -> not (null d)) findIt
+  where
+    lessThan = fmap (\n -> filter (< n) ls) ls
+    possible = ls `zip` lessThan
+    findIt = fmap (\(a, b) -> (a, filter (\bs -> a `mod` bs == 0) b)) possible
 
 part2 :: Integral a => [a] -> a
 part2 ls = head $ uncurry div <$> processLine ls
 
 -- |
 -- >>> answerInput2
--- ProgressCancelledException
+-- 282
+answerInput2 :: IO Int
 answerInput2 = do
   inp <- T.lines <$> DTIO.readFile "src/year2017/Day2/input.txt"
   return $ sum $ fmap (part2 . parse) inp
