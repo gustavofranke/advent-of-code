@@ -24,6 +24,7 @@ library
   exposed-modules:     Year2015.Day1.Solution
                      , Year2015.Day2.Solution
                      , Year2015.Day3.Solution
+                     , Year2015.Day5.Solution
                      , Year2016.Day1.Solution
                      , Year2016.Day3.Solution
                      , Year2017.Day1.Solution
