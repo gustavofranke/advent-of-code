@@ -19,6 +19,7 @@ import Data.List ( group, nub )
 -- "111221"
 -- >>> asdf "111221"
 -- "312211"
+asdf :: [Char] -> [Char]
 asdf nbr = concatMap (\ns -> show (length ns) ++ nub ns) $ group nbr
 
 -- |
@@ -26,6 +27,7 @@ asdf nbr = concatMap (\ns -> show (length ns) ++ nub ns) $ group nbr
 -- 360154
 -- >>> length $ answer 50
 -- 5103798
+answer :: Int -> [Char]
 answer rep = foldl (\a f -> f a) "1113122113" (replicate rep asdf) --"1113122113"
 
 -- |
@@ -33,6 +35,7 @@ answer rep = foldl (\a f -> f a) "1113122113" (replicate rep asdf) --"1113122113
 -- 360154
 -- >>> length $ go "1113122113" 50
 -- 5103798
+go :: (Eq t, Num t) => [Char] -> t -> [Char]
 go str ctr
     | ctr == 0 = str 
     | otherwise = go (asdf str) (ctr -1)
