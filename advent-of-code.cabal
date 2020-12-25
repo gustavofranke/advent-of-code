@@ -31,6 +31,7 @@ library
                      , Year2016.Day6.Solution
                      , Year2017.Day1.Solution
                      , Year2017.Day2.Solution
+                     , Year2017.Day4.Solution
                      , Year2018.Day1.Solution
                      , Year2018.Day2.Solution
                      , Year2019.Day1.Solution
