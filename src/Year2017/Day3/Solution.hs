@@ -1,8 +1,5 @@
 module Year2017.Day3.Solution where
 
-import Year2015.Day3.Solution (up, down, left, right)
-
-
 -- Representation of coordinates of a cell within a grid.
 --
 --     1   2   3   4   5 .. n
