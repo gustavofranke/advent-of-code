@@ -1,5 +1,8 @@
 module Year2017.Day3.Solution where
 
+import qualified Data.Map.Strict as M
+import Year2020.Day3.Solution (Pos (Pos), goDown, goRight)
+
 -- Representation of coordinates of a cell within a grid.
 --
 --     1   2   3   4   5 .. n
@@ -41,20 +44,55 @@ module Year2017.Day3.Solution where
 -- 33
 gridSize :: (Integral p, Integral a) => a -> p
 gridSize inp = if even size then size + 1 else size
-    where
-        size = ceiling (sqrt (fromIntegral inp) :: Double) 
+  where
+    size = ceiling (sqrt (fromIntegral inp) :: Double)
 
 -- |
--- >>> gridCenter 5
+-- >>> gridCentre 5
 -- (3,3)
--- >>> gridCenter 1
+-- >>> gridCentre 1
 -- (1,1)
--- >>> gridCenter 33
+-- >>> gridCentre 33
 -- (17,17)
-gridCenter :: (RealFrac a, Integral b) => a -> (b, b)
-gridCenter gridSz = (pos, pos)
-    where
-        pos = ceiling (gridSz / 2)
+gridCentre :: (RealFrac a, Integral b) => a -> (b, b)
+gridCentre gridSz = (pos, pos)
+  where
+    pos = ceiling (gridSz / 2)
 
 manhattan :: Num a => (a, a) -> (a, a) -> a
 manhattan (x1, y1) (x2, y2) = abs (x1 - x2) + abs (y1 - y2)
+
+goUp :: Pos -> Pos
+goUp (Pos a b) = Pos (a - 1) b
+
+goLeft :: Pos -> Pos
+goLeft (Pos a b) = Pos a (b - 1)
+
+counterClockwiseOutside :: [Pos -> Pos]
+counterClockwiseOutside = (concat . repeat) [goRight, goUp, goLeft, goDown]
+
+repetitions :: Int -> [Int]
+repetitions gs = concatMap (\x -> [x, x]) [1 .. gs]
+
+spiral :: Int -> [Pos -> Pos]
+spiral gs = concatMap (\(f, i) -> replicate i f) (counterClockwiseOutside `zip` repetitions gs)
+
+-- undefined --  fmap (\(_, i) -> undefined)
+-- fmap (\(x, i) -> foldl1 (.) sp pos) (sp `zip` [0 ..] !! location)
+populateGrid :: Pos -> Int -> Int -> Maybe Pos
+populateGrid pos gs location = undefined
+  where
+    sp = spiral gs
+
+positionsByLocations :: Pos -> Int -> Int -> M.Map Int Pos
+positionsByLocations centre gs location =
+  if location == 1
+    then M.fromList [(1, centre)]
+    else case populateGrid centre gs location of
+      Nothing -> M.empty
+      Just p -> M.fromList [(location, p)]
+
+-- answer loc = positionsByLocations centre size loc
+--   where
+--     size = gridSize loc
+--     centre = gridCentre loc
