@@ -49,13 +49,13 @@ gridSize inp = if even size then size + 1 else size
 
 -- |
 -- >>> gridCentre 5
--- (3,3)
+-- Pos {x = 3, y = 3}
 -- >>> gridCentre 1
--- (1,1)
+-- Pos {x = 1, y = 1}
 -- >>> gridCentre 33
--- (17,17)
-gridCentre :: (RealFrac a, Integral b) => a -> (b, b)
-gridCentre gridSz = (pos, pos)
+-- Pos {x = 17, y = 17}
+gridCentre :: RealFrac a => a -> Pos
+gridCentre gridSz = Pos pos pos
   where
     pos = ceiling (gridSz / 2)
 
@@ -92,7 +92,9 @@ positionsByLocations centre gs location =
       Nothing -> M.empty
       Just p -> M.fromList [(location, p)]
 
--- answer loc = positionsByLocations centre size loc
+-- answer loc = lookup loc posByLoc
 --   where
 --     size = gridSize loc
---     centre = gridCentre loc
+--     centre = gridCentre (toRational loc)
+--     posByLoc = positionsByLocations centre size (fromIntegral loc)
+
